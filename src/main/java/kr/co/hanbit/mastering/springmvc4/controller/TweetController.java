@@ -1,7 +1,6 @@
 package kr.co.hanbit.mastering.springmvc4.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.SearchResults;
@@ -21,13 +20,9 @@ public class TweetController {
     @RequestMapping("/")
     public String hello(@RequestParam(defaultValue = "masterSpringMVC4") String search, Model model) {
         SearchResults searchResults = twitter.searchOperations().search(search);
-        
-        List<String> tweets = 
-                searchResults.getTweets()
-                .stream()
-                .map(Tweet::getText)
-                .collect(Collectors.toList());
+        List<Tweet> tweets = searchResults.getTweets();
         model.addAttribute("tweets", tweets);
+        model.addAttribute("search", search);
         return "tweets";
     }
 }
