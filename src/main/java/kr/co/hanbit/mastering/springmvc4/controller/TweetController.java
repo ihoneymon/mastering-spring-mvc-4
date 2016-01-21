@@ -38,6 +38,10 @@ public class TweetController {
     @RequestMapping(value = "/post-search", method = RequestMethod.POST)
     public String postSearch(HttpServletRequest request, RedirectAttributes redirectAttributes) {
         String search = request.getParameter("search");
+        if (search.toLowerCase().contains("struts")) {
+            redirectAttributes.addFlashAttribute("error", "Try using spring instead!");
+            return "redirect:/";
+        }
         redirectAttributes.addAttribute("search", search);
         return "redirect:result";
     }
