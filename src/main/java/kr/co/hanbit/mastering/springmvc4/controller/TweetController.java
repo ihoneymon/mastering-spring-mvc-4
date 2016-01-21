@@ -17,12 +17,12 @@ public class TweetController {
     @Autowired
     private Twitter twitter;
 
-    @RequestMapping("/")
+    @RequestMapping("/result")
     public String hello(@RequestParam(defaultValue = "masterSpringMVC4") String search, Model model) {
         SearchResults searchResults = twitter.searchOperations().search(search);
         List<Tweet> tweets = searchResults.getTweets();
         model.addAttribute("tweets", tweets);
         model.addAttribute("search", search);
-        return "tweets";
+        return "result-page";
     }
 }
