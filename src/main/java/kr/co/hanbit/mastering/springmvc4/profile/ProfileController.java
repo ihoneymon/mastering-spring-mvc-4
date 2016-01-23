@@ -8,7 +8,7 @@ public class ProfileController {
 
     @RequestMapping("/profile")
     public String displayProfile() {
-        return "profile/profilePage";
+        return "profile/profile-page";
     }
 
 }
