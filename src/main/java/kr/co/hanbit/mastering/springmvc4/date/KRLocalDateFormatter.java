@@ -7,6 +7,9 @@ import java.util.Locale;
 
 import org.springframework.format.Formatter;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class KRLocalDateFormatter implements Formatter<LocalDate> {
     private static final String KR_PATTERN = "yyyy/MM/dd";
     private static final String NORMAL_PATTERN = "dd/MM/yyyy";
@@ -22,6 +25,7 @@ public class KRLocalDateFormatter implements Formatter<LocalDate> {
     }
 
     public static String getPattern(Locale locale) {
+        log.debug("Locale: {}", locale);
         return isKorea(locale) ? KR_PATTERN : NORMAL_PATTERN;
     }
 
