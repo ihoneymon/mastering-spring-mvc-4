@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import kr.co.hanbit.mastering.springmvc4.date.PastLocalDate;
 import lombok.Data;
 
 @Data
@@ -23,6 +24,7 @@ public class ProfileForm {
     private String email;
     
     @NotNull
+    @PastLocalDate
     private LocalDate birthDate;
     
     @NotEmpty
