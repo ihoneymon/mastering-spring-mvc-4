@@ -13,12 +13,12 @@
 
       <div class="row">
         <div class="input-field col s6">
-          <input id="twitterHandle" type="text" th:field="${profileForm.twitterHandle}" th:errorclass="invalid" />
-          <label for="twitterHandle" th:text="#{profile.twitterHandler}">Last Name</label>
+          <input th:field="${profileForm.twitterHandle}" id="twitterHandle" type="text" required="required" th:errorclass="invalid" />
+          <label for="twitterHandle" th:text="#{profile.twitterHandle}">Last Name</label>
           <div th:errors="*{twitterHandle}" class="red-text">Error</div>
         </div>
         <div class="input-field col s6">
-          <input id="email" type="text" th:field="${profileForm.email}" th:errorclass="invalid" />
+          <input th:field="${profileForm.email}" id="email" type="email" required="required" th:errorclass="invalid" />
           <label for="email" th:text="#{profile.email}">Email</label>
           <div th:errors="*{email}" class="red-text">Error</div>
         </div>
@@ -26,7 +26,7 @@
 
       <div class="row">
         <div class="input-field col s6">
-          <input id="birthDate" type="text" th:field="${profileForm.birthDate}" th:placeholder="${dateFormat}" th:errorclass="invalid" />
+          <input th:field="${profileForm.birthDate}" id="birthDate" type="text" required="required" th:placeholder="${dateFormat}" th:errorclass="invalid" />
           <label for="birthDate" th:text="#{profile.birthDate}">Birth Date</label>
           <div th:errors="*{birthDate}" class="red-text">Error</div>
         </div>
@@ -42,7 +42,7 @@
 
         <div class="row" th:each="row,rowStat : *{tastes}">
           <div class="col s6">
-            <input type="text" th:field="*{tastes[__${rowStat.index}__]}" th:placeholder="#{taste.placeholder}" required="required" />
+            <input th:field="*{tastes[__${rowStat.index}__]}" type="text" required="required" th:placeholder="#{profile.taste.placeholder}" />
           </div>
 
           <div class="col s6">
@@ -62,6 +62,16 @@
     <!-- // 개인정보 끝 -->
 
   </div>
+
+  <script layout:fragment="script">
+    $('button').bind('click', function (e) {
+      if (e.currentTarget.name === 'save') {
+        $(e.currentTarget.form).removeAttr('novalidate');
+      } else {
+        $(e.currentTarget.form).attr('novalidate', 'novalidate');
+      }
+    });
+  </script>
 </body>
 
 </html>
