@@ -8,27 +8,51 @@
 <body>
   <div class="row" layout:fragment="content">
     <!-- // 개인정보 시작 -->
-    <h2 class="indigo-text center">Personal info</h2>
+    <h2 class="indigo-text center" th:text="#{profile.title}">Personal info</h2>
     <form th:action="@{/profile}" method="post" class="col m8 s12 offset-m2" th:object="${profileForm}">
+
       <div class="row">
         <div class="input-field col s6">
-          <input id="twitterHandle" type="text" th:field="${profileForm.twitterHandle}" th:errorclass="invalid"/>
-          <label for="twitterHandle">Last Name</label>
+          <input id="twitterHandle" type="text" th:field="${profileForm.twitterHandle}" th:errorclass="invalid" />
+          <label for="twitterHandle" th:text="#{profile.twitterHandler}">Last Name</label>
           <div th:errors="*{twitterHandle}" class="red-text">Error</div>
         </div>
         <div class="input-field col s6">
-          <input id="email" type="text" th:field="${profileForm.email}" th:errorclass="invalid"/>
-          <label for="email">Email</label>
+          <input id="email" type="text" th:field="${profileForm.email}" th:errorclass="invalid" />
+          <label for="email" th:text="#{profile.email}">Email</label>
           <div th:errors="*{email}" class="red-text">Error</div>
         </div>
       </div>
+
       <div class="row">
         <div class="input-field col s6">
-          <input id="birthDate" type="text" th:field="${profileForm.birthDate}" th:placeholder="${dateFormat}" th:errorclass="invalid"/>
-          <label for="birthDate">Birth Date</label>
+          <input id="birthDate" type="text" th:field="${profileForm.birthDate}" th:placeholder="${dateFormat}" th:errorclass="invalid" />
+          <label for="birthDate" th:text="#{profile.birthDate}">Birth Date</label>
           <div th:errors="*{birthDate}" class="red-text">Error</div>
         </div>
       </div>
+
+      <fieldset class="row">
+        <legend th:text="#{profile.tastes.legend}">What do you like?</legend>
+        <button class="btn teal" type="submit" name="addTaste" th:text="#{add.taste}">Add taste
+          <i class="mdi-content-add left"></i>
+        </button>
+
+        <div th:errors="*{tastes}" class="red-text">Error</div>
+
+        <div class="row" th:each="row,rowStat : *{tastes}">
+          <div class="col s6">
+            <input type="text" th:field="*{tastes[__${rowStat.index}__]}" th:placeholder="#{taste.placeholder}" required="required" />
+          </div>
+
+          <div class="col s6">
+            <button class="btn red" type="submit" name="removeTaste" th:value="${rowStat.index}" th:text="#{remove}">Remove
+              <i class="mdi-action-delete right waves-effect"></i>
+            </button>
+          </div>
+        </div>
+      </fieldset>
+
       <div class="row s12">
         <button class="btn waves-effect waves-light" type="submit" name="save">Submit
           <i class="mdi-content-send right"></i>
