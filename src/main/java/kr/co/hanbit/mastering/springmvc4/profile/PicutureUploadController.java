@@ -5,8 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLConnection;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
@@ -36,6 +40,13 @@ public class PicutureUploadController {
         copyFileToPictures(file);
 
         return "profile/upload-page";
+    }
+
+    @RequestMapping(value = "/uploaded-picture")
+    public void getUploadedPicture(HttpServletResponse response) throws IOException {
+        ClassPathResource classPathResource = new ClassPathResource("/images/anonymous.png");
+        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(classPathResource.getFilename()));
+        IOUtils.copy(classPathResource.getInputStream(), response.getOutputStream());
     }
 
     private void copyFileToPictures(MultipartFile file) throws IOException {

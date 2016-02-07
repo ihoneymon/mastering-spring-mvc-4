@@ -11,6 +11,9 @@
 	<div class="col s12 center red-text" th:text="${error}" th:if="${error}">
 	  Error during upload
 	</div>
+	<div class="col m8 s12 offset-m2">
+	  <img th:src="@{/uploaded-picture}" width="100" height="100"/>
+	</div>
     <form th:action="@{/upload}" method="post" enctype="multipart/form-data" class="col m8 s12 offset-m2">
       <div class="input-field col s6">
         <input type="file" id="file" name="file" />
