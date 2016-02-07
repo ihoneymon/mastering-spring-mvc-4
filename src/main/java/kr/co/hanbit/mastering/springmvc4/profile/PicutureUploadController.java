@@ -10,8 +10,7 @@ import java.net.URLConnection;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +18,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.hanbit.mastering.springmvc4.config.PicturesUploadProperties;
+
 @Controller
 public class PicutureUploadController {
+    private final Resource pictureDir;
+    private final Resource anonymousPicture;
 
-    public static final Resource PICTURES_DIR = new FileSystemResource("./pictures");
+    @Autowired
+    public PicutureUploadController(PicturesUploadProperties picturesUploadProperties) {
+        this.pictureDir = picturesUploadProperties.getUploadPath();
+        this.anonymousPicture = picturesUploadProperties.getAnonymousPicture();
+    }
 
     @RequestMapping("upload")
     public String uploadPage() {
@@ -44,14 +51,14 @@ public class PicutureUploadController {
 
     @RequestMapping(value = "/uploaded-picture")
     public void getUploadedPicture(HttpServletResponse response) throws IOException {
-        ClassPathResource classPathResource = new ClassPathResource("/images/anonymous.png");
-        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(classPathResource.getFilename()));
-        IOUtils.copy(classPathResource.getInputStream(), response.getOutputStream());
+        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(anonymousPicture.getFilename()));
+        IOUtils.copy(anonymousPicture.getInputStream(), response.getOutputStream());
     }
 
     private void copyFileToPictures(MultipartFile file) throws IOException {
-        String filename = file.getOriginalFilename();
-        File tempFile = File.createTempFile("pic", getFileExtension(filename), PICTURES_DIR.getFile());
+        String fileExtension = getFileExtension(file.getOriginalFilename());
+        File tempFile = File.createTempFile("pic", fileExtension, pictureDir.getFile());
+
         try (InputStream in = file.getInputStream(); OutputStream out = new FileOutputStream(tempFile)) {
             IOUtils.copy(in, out);
         }
