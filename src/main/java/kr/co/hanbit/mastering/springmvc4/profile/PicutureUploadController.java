@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,12 +25,12 @@ import kr.co.hanbit.mastering.springmvc4.config.PicturesUploadProperties;
 
 @Controller
 public class PicutureUploadController {
-    private final Resource pictureDir;
+    private final Resource picturesDir;
     private final Resource anonymousPicture;
 
     @Autowired
     public PicutureUploadController(PicturesUploadProperties picturesUploadProperties) {
-        this.pictureDir = picturesUploadProperties.getUploadPath();
+        this.picturesDir = picturesUploadProperties.getUploadPath();
         this.anonymousPicture = picturesUploadProperties.getAnonymousPicture();
     }
 
@@ -61,20 +59,17 @@ public class PicutureUploadController {
     }
 
     @RequestMapping(value = "/uploaded-picture")
-    public void getUploadedPicture(HttpServletResponse response, @ModelAttribute("picturePath") Path picturePath)
-            throws IOException {
-        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(picturePath.toString()));
-        Files.copy(picturePath, response.getOutputStream());
+    public void getUploadedPicture(HttpServletResponse response) throws IOException {
+        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(anonymousPicture.getFilename()));
+        IOUtils.copy(anonymousPicture.getInputStream(), response.getOutputStream());
     }
 
     private Resource copyFileToPictures(MultipartFile file) throws IOException {
         String fileExtension = getFileExtension(file.getOriginalFilename());
-        File tempFile = File.createTempFile("pic", fileExtension, pictureDir.getFile());
-
+        File tempFile = File.createTempFile("pic", fileExtension, picturesDir.getFile());
         try (InputStream in = file.getInputStream(); OutputStream out = new FileOutputStream(tempFile)) {
             IOUtils.copy(in, out);
         }
-
         return new FileSystemResource(tempFile);
     }
 

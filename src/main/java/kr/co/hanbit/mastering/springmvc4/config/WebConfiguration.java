@@ -2,7 +2,6 @@ package kr.co.hanbit.mastering.springmvc4.config;
 
 import java.time.LocalDate;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -15,7 +14,6 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import kr.co.hanbit.mastering.springmvc4.date.KRLocalDateFormatter;
 
 @Configuration
-@EnableConfigurationProperties({ PicturesUploadProperties.class })
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
