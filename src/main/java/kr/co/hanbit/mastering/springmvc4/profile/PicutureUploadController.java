@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.URLConnection;
 import java.nio.file.Files;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
 import kr.co.hanbit.mastering.springmvc4.config.PicturesUploadProperties;
 
@@ -91,6 +93,13 @@ public class PicutureUploadController {
     public ModelAndView handleIOException(IOException exception) {
         ModelAndView modelAndView = new ModelAndView("profile/upload-page");
         modelAndView.addObject("error", exception.getMessage());
+        return modelAndView;
+    }
+
+    @RequestMapping("upload-error")
+    public ModelAndView onUploadError(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView("profile/upload-page");
+        modelAndView.addObject("error", request.getAttribute(WebUtils.ERROR_MESSAGE_ATTRIBUTE));
         return modelAndView;
     }
 }
