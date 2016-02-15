@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,9 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.hanbit.mastering.springmvc4.config.PicturesUploadProperties;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Controller
 @SessionAttributes("picturePath")
 public class PicutureUploadController {
@@ -59,7 +56,6 @@ public class PicutureUploadController {
         }
 
         Resource picturePath = copyFileToPictures(file);
-        log.debug("PicturePath: {}", picturePath);
         model.addAttribute("picturePath", picturePath);
 
         return "profile/upload-page";
