@@ -44,8 +44,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     @Bean
     public EmbeddedServletContainerCustomizer containerCustomizer() {
-        EmbeddedServletContainerCustomizer embeddedServletContainerCustomizer = container -> container
-                .addErrorPages(new ErrorPage(MultipartException.class, "/upload-error"));
-        return embeddedServletContainerCustomizer;
+        return container -> container.addErrorPages(new ErrorPage(MultipartException.class, "/upload-error"));
     }
 }
