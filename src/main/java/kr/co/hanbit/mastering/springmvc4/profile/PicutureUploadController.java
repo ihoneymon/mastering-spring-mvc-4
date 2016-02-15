@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,12 +20,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.hanbit.mastering.springmvc4.config.PicturesUploadProperties;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
+@SessionAttributes("picturePath")
 public class PicutureUploadController {
     private final Resource picturesDir;
     private final Resource anonymousPicture;
@@ -53,15 +59,16 @@ public class PicutureUploadController {
         }
 
         Resource picturePath = copyFileToPictures(file);
+        log.debug("PicturePath: {}", picturePath);
         model.addAttribute("picturePath", picturePath);
 
         return "profile/upload-page";
     }
 
     @RequestMapping(value = "/uploaded-picture")
-    public void getUploadedPicture(HttpServletResponse response) throws IOException {
-        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(anonymousPicture.getFilename()));
-        IOUtils.copy(anonymousPicture.getInputStream(), response.getOutputStream());
+    public void getUploadedPicture(HttpServletResponse response, @ModelAttribute("picturePath") Resource picturePath) throws IOException {
+        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(picturePath.toString()));
+        Files.copy(picturePath.getFile().toPath(), response.getOutputStream());
     }
 
     private Resource copyFileToPictures(MultipartFile file) throws IOException {

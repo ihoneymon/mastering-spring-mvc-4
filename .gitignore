@@ -126,4 +126,4 @@ fabric.properties
 
 
 #application
-pictures
+/pictures/*
