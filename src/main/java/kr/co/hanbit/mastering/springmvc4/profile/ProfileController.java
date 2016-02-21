@@ -43,7 +43,8 @@ public class ProfileController {
         }
         log.debug("ProfileForm: {}", profileForm);
         userProfileSession.saveForm(profileForm);
-        return "redirect:/profile";
+        
+        return "redirect:/search/mixed;keywords=" + String.join(",", profileForm.getTastes());
     }
 
     @RequestMapping("/profile")
