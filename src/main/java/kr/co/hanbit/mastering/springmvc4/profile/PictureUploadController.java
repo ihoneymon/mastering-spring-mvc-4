@@ -6,10 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
-import java.nio.file.Files;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -20,65 +18,60 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.WebUtils;
 
 import kr.co.hanbit.mastering.springmvc4.config.PicturesUploadProperties;
 
 @Controller
 @SessionAttributes("picturePath")
-public class PicutureUploadController {
+public class PictureUploadController {
     private final Resource picturesDir;
     private final Resource anonymousPicture;
     private final MessageSource messageSource;
+    private final UserProfileSession userProfileSession;
 
     @Autowired
-    public PicutureUploadController(PicturesUploadProperties picturesUploadProperties, MessageSource messageSource) {
-        this.picturesDir = picturesUploadProperties.getUploadPath();
-        this.anonymousPicture = picturesUploadProperties.getAnonymousPicture();
+    public PictureUploadController(PicturesUploadProperties uploadProperties, MessageSource messageSource,
+            UserProfileSession userProfileSession) {
+        this.picturesDir = uploadProperties.getUploadPath();
+        this.anonymousPicture = uploadProperties.getAnonymousPicture();
         this.messageSource = messageSource;
+        this.userProfileSession = userProfileSession;
     }
 
-    @ModelAttribute("picturePath")
-    public Resource picturePath() {
-        return anonymousPicture;
-    }
-
-    @RequestMapping("upload")
-    public String uploadPage() {
-        return "profile/upload-page";
-    }
-
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
     public String onUpload(MultipartFile file, RedirectAttributes redirectAttrs, Model model) throws IOException {
 
         if (file.isEmpty() || !isImage(file)) {
             redirectAttrs.addFlashAttribute("error", "Incorrect file.Please upload a picture.");
-            return "redirect:/upload";
+            return "redirect:/profile";
         }
 
         Resource picturePath = copyFileToPictures(file);
-        model.addAttribute("picturePath", picturePath);
+        userProfileSession.setPicturePath(picturePath);
 
-        return "profile/upload-page";
+        return "redirect:profile";
     }
 
     @RequestMapping(value = "/uploaded-picture")
-    public void getUploadedPicture(HttpServletResponse response, @ModelAttribute("picturePath") Resource picturePath)
-            throws IOException {
-        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(picturePath.toString()));
-        Files.copy(picturePath.getFile().toPath(), response.getOutputStream());
+    public void getUploadedPicture(HttpServletResponse response) throws IOException {
+        Resource picturePath = userProfileSession.getPicturePath();
+        if (picturePath == null) {
+            picturePath = anonymousPicture;
+        }
+        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(picturePath.getFilename()));
+        IOUtils.copy(picturePath.getInputStream(), response.getOutputStream());
     }
 
     private Resource copyFileToPictures(MultipartFile file) throws IOException {
         String fileExtension = getFileExtension(file.getOriginalFilename());
         File tempFile = File.createTempFile("pic", fileExtension, picturesDir.getFile());
+
         try (InputStream in = file.getInputStream(); OutputStream out = new FileOutputStream(tempFile)) {
             IOUtils.copy(in, out);
         }
@@ -102,8 +95,9 @@ public class PicutureUploadController {
 
     @RequestMapping("upload-error")
     public ModelAndView onUploadError(Locale locale) {
-        ModelAndView modelAndView = new ModelAndView("profile/upload-page");
+        ModelAndView modelAndView = new ModelAndView("profile/profilePage");
         modelAndView.addObject("error", messageSource.getMessage("upload.file.too.big", null, locale));
+        modelAndView.addObject("profileForm", userProfileSession.toForm());
         return modelAndView;
     }
 }
