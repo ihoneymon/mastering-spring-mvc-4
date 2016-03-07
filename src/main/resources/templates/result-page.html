@@ -10,8 +10,8 @@
     <h2 class="indigo-text center" th:text="|Tweet results for ${search}|">Tweets</h2>
     <ul class="collection">
       <li class="collection-item avatar" th:each="tweet : ${tweets}">
-        <img th:src="${tweet.user.profileImageUrl}" alt="" class="circle" />
-        <span class="title" th:text="${tweet.user.name}">Username</span>
+        <img th:src="${tweet.profileImageUrl}" alt="" class="circle" />
+        <span class="title" th:text="${tweet.user}">Username</span>
         <p th:text="${tweet.text}">Tweet message</p>
       </li>
     </ul>
