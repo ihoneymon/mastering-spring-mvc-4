@@ -1,4 +1,4 @@
-package kr.co.hanbit.mastering.springmvc4.search.ai;
+package kr.co.hanbit.mastering.springmvc4.search.api;
 
 import java.util.List;
 
