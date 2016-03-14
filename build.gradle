@@ -34,6 +34,8 @@ dependencies {
 	compile "org.springframework.boot:spring-boot-starter-web"
 	compile "org.springframework.boot:spring-boot-starter-thymeleaf"
     compile "org.springframework.boot:spring-boot-starter-social-twitter"
+	compile 'org.springframework.boot:spring-boot-starter-security'
+
     compile "org.webjars:materializecss:0.96.0"
     compile "org.webjars:jquery:2.1.4"
     compile "org.projectlombok:lombok:1.16.6"
