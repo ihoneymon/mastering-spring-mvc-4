@@ -18,7 +18,6 @@ import kr.co.hanbit.mastering.springmvc4.user.UserRepository;
 
 @RestController
 @RequestMapping("/api")
-@Secured("ROLE_ADMIN")
 public class UserApiController {
 
     private UserRepository userRepository;
