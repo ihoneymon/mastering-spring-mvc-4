@@ -23,7 +23,7 @@
       </ul>
     </div>
   </nav>
-  <div>
+  <div sec:authorize="isAuthenticated()">
     You are logged as <b sec:authentication="name" /> with roles <span sec:authentication="authorities" /> -
     <form th:action="@{/logout}" method="post" style="display: inline-block">
       <input type="submit" value="Sign Out" />
