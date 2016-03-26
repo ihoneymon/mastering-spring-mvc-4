@@ -127,3 +127,9 @@ fabric.properties
 
 #application
 /pictures/*
+
+#jenv 
+.java-version
+
+#ignore keystore
+*.keystore
