@@ -7,5 +7,5 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @Configuration
 @Profile("redis")
 @EnableRedisHttpSession
-public class RedisConfiguration {
+public class RedisConfig {
 }
