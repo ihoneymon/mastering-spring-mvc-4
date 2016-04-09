@@ -48,7 +48,7 @@ public class UserApiController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         User saved = userRepository.update(email, user);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+        return new ResponseEntity<>(saved, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user/{email}", method = RequestMethod.DELETE)
@@ -59,5 +59,4 @@ public class UserApiController {
         userRepository.delete(email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

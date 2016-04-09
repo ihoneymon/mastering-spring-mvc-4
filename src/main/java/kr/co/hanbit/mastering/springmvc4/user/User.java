@@ -7,8 +7,10 @@ import java.util.List;
 import org.springframework.util.Assert;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class User {
 
     private String twitterHandle;
