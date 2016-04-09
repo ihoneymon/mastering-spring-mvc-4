@@ -22,7 +22,8 @@ import lombok.Setter;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserProfileSession implements Serializable {
-
+    private static final long serialVersionUID = 4735188945391376650L;
+    
     private String twitterHandle;
     private String email;
     private LocalDate birthDate;

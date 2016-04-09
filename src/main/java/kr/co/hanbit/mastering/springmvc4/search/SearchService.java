@@ -9,7 +9,7 @@ import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SearchService {
+public class SearchService implements TwitterSearch {
 
     private Twitter twitter;
 
@@ -18,6 +18,10 @@ public class SearchService {
         this.twitter = twitter;
     }
 
+    /* (non-Javadoc)
+     * @see kr.co.hanbit.mastering.springmvc4.search.TwitterSearchService#search(java.lang.String, java.util.List)
+     */
+    @Override
     public List<LightTweet> search(String searchType, List<String> keywords) {
         List<SearchParameters> searches = keywords.stream()
                 .map(taste -> createSearchParam(searchType, taste))

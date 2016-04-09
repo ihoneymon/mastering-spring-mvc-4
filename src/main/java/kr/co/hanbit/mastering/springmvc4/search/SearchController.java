@@ -12,10 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SearchController {
 
-    private SearchService searchService;
+    private TwitterSearch searchService;
 
     @Autowired
-    public SearchController(SearchService searchService) {
+    public SearchController(TwitterSearch searchService) {
         this.searchService = searchService;
     }
 
