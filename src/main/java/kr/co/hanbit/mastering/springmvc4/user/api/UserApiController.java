@@ -44,7 +44,7 @@ public class UserApiController {
     @RequestMapping(value = "/user/{email}", method = RequestMethod.PUT)
     public ResponseEntity<User> updateUser(@PathVariable String email, @RequestBody User user)
             throws EntityNotFoundException {
-        if (!userRepository.exists(user.getEmail())) {
+        if (!userRepository.exists(email)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         User saved = userRepository.update(email, user);
