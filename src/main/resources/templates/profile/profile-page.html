@@ -71,7 +71,7 @@
 
         <div class="row" th:each="row,rowStat : *{tastes}">
           <div class="col s6">
-            <input type="text" th:field="*{tastes[__${rowStat.index}__]}" th:placeholder="#{taste.placeholder}" required="required" />
+            <input type="text" th:field="*{tastes[__${rowStat.index}__]}" th:placeholder="#{profile.taste.placeholder}" required="required" />
           </div>
 
           <div class="col s6">
