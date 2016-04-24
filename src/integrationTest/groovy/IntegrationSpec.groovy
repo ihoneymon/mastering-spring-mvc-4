@@ -1,4 +1,7 @@
 import geb.Configuration
+import geb.pages.LoginPage
+import geb.pages.ProfilePage
+import geb.pages.SearchResultPage
 import geb.spock.GebSpec
 import kr.co.hanbit.mastering.springmvc4.MasteringSpringMvc4Application
 import kr.co.hanbit.mastering.springmvc4.config.StubTwitterSearchConfig
@@ -8,8 +11,7 @@ import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.test.context.ContextConfiguration
 
-@ContextConfiguration(loader = SpringApplicationContextLoader,
-classes = [MasteringSpringMvc4Application, StubTwitterSearchConfig])
+@ContextConfiguration(loader = SpringApplicationContextLoader, classes = [MasteringSpringMvc4Application, StubTwitterSearchConfig])
 @WebIntegrationTest(randomPort = true)
 class IntegrationSpec extends GebSpec {
 
@@ -25,9 +27,40 @@ class IntegrationSpec extends GebSpec {
     def "User is redirected to the login page when not logged"() {
         when: "I navigate to the home page"
         go '/'
-        //report 'navigation-redirection'
+
+        then: "I am redirected to the login page"
+        $('h2').text() == 'Login'
+    }
+
+    def "User is redirected to its profile on his first visit"() {
+        when: 'I am connected'
+        to LoginPage
+        loginWithTwitter()
+
+        and: "I navigate to the home page"
+        go '/'
 
         then: "I am redirected to the profile page"
-        $('h2', 0).text() == 'Login'
+        $('h2').text() == 'Your profile'
+    }
+
+    def "After filling his profile, the user is taken to result matching his tastes"() {
+        given: 'I am connected'
+        to LoginPage
+        loginWithTwitter()
+
+        and: 'I am on my profile'
+        to ProfilePage
+
+        when: 'I fill my profile'
+        fillInfos("geowarin", "geowarin@mymail.com", "03/19/1987");
+        addTaste("spring")
+
+        and: 'I save it'
+        saveProfile()
+
+        then: 'I am taken to the search result page'
+        at SearchResultPage
+        page.results.size() == 2
     }
 }
