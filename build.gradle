@@ -16,62 +16,63 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot' 
 
 jar {
-	baseName = 'spring-mvc-4'
-	version = '0.0.1-SNAPSHOT'
+  baseName = 'spring-mvc-4'
+  version = '0.0.1-SNAPSHOT'
 }
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+  mavenCentral()
 }
 
 configurations {
-	testCompile {
-		exclude module: 'selenium-safari-driver'
-		exclude module: 'selenium-ie-driver'
-		//exclude module: 'selenium-firefox-driver'
-		exclude module: 'selenium-htmlunit-driver'
-		exclude module: 'selenium-chrome-driver'
-	}
+  testCompile {
+	exclude module: 'selenium-safari-driver'
+	exclude module: 'selenium-ie-driver'
+	//exclude module: 'selenium-firefox-driver'
+	exclude module: 'selenium-htmlunit-driver'
+	exclude module: 'selenium-chrome-driver'
+  }
 }
 
 dependencies {
   compile "org.springframework.boot:spring-boot-configuration-processor"
   compile "org.springframework.boot:spring-boot-devtools"
-	compile "org.springframework.boot:spring-boot-starter-web"
-	compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+  compile "org.springframework.boot:spring-boot-starter-web"
+  compile "org.springframework.boot:spring-boot-starter-thymeleaf"
   compile "org.springframework.boot:spring-boot-starter-social-twitter"
-	compile 'org.springframework.boot:spring-boot-starter-security'
-	compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4'
-	compile 'org.springframework.boot:spring-boot-starter-redis'
-	compile 'org.springframework.session:spring-session:1.0.1.RELEASE'
+  compile 'org.springframework.boot:spring-boot-starter-security'
+  compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4'
+  compile 'org.springframework.boot:spring-boot-starter-redis'
+  compile 'org.springframework.session:spring-session:1.0.1.RELEASE'
 
   compile "org.webjars:materializecss:0.96.0"
   compile "org.webjars:jquery:2.1.4"
   compile "org.projectlombok:lombok:1.16.6"
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
   compile 'io.springfox:springfox-swagger2:2.4.0'
-	compile 'io.springfox:springfox-swagger-ui:2.4.0'
-	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+  compile 'io.springfox:springfox-swagger-ui:2.4.0'
+  compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
     
-	testCompile 'org.springframework.boot:spring-boot-starter-test' 
-	testCompile 'com.jayway.jsonpath:json-path'
-	testCompile 'org.assertj:assertj-core:3.0.0'
-	testCompile 'org.fluentlenium:fluentlenium-assertj:0.10.3'
-	testCompile 'com.codeborne:phantomjsdriver:1.2.1'
-	testCompile 'org.seleniumhq.selenium:selenium-java:2.45.0'
-	testCompile 'org.codehaus.groovy:groovy-all:2.4.4:indy'
+  testCompile 'org.springframework.boot:spring-boot-starter-test' 
+  testCompile 'com.jayway.jsonpath:json-path'
+  testCompile 'org.assertj:assertj-core:3.0.0'
+  testCompile 'org.fluentlenium:fluentlenium-assertj:0.10.3'
+  testCompile 'com.codeborne:phantomjsdriver:1.2.1'
+  testCompile 'org.seleniumhq.selenium:selenium-java:2.45.0'
+  testCompile 'org.codehaus.groovy:groovy-all:2.4.4:indy'
   testCompile 'org.spockframework:spock-spring'
+  testCompile 'org.gebish:geb-spock:0.12.0'
 }
 
 
 eclipse {
-	classpath {
-		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-	}
+  classpath {
+	containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+	containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+  }
 }
 
 task wrapper(type: Wrapper) {
@@ -84,10 +85,10 @@ configurations {
 }
 
 sourceSets {
-	integrationTest {
-		compileClasspath += main.output + test.output
-		runtimeClasspath += main.output + test.output
-	}
+  integrationTest {
+	compileClasspath += main.output + test.output
+	runtimeClasspath += main.output + test.output
+  }
 }
 
 task integrationTest(type: Test) {
