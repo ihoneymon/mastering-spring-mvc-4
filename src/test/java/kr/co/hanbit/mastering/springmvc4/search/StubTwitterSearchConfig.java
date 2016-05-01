@@ -1,4 +1,4 @@
-package kr.co.hanbit.mastering.springmvc4.config;
+package kr.co.hanbit.mastering.springmvc4.search;
 
 import java.util.Arrays;
 
@@ -12,7 +12,6 @@ import kr.co.hanbit.mastering.springmvc4.search.TwitterSearch;
 @Configuration
 public class StubTwitterSearchConfig {
 
-    @Primary
     @Bean
     public TwitterSearch twitterSearch() {
         return (searchType, keywords) -> Arrays.asList(new LightTweet("tweetText"), new LightTweet("secondTweet"));

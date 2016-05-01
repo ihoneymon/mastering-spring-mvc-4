@@ -1,5 +1,6 @@
 package kr.co.hanbit.mastering.springmvc4.search;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -10,7 +11,9 @@ import org.springframework.social.twitter.api.TwitterProfile;
 import lombok.Data;
 
 @Data
-public class LightTweet {
+public class LightTweet implements Serializable {
+    private static final long serialVersionUID = 1975420395722693213L;
+    
     private String profileImageUrl;
     private String user;
     private String text;

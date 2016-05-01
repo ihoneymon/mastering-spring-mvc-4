@@ -32,4 +32,5 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
             .anyRequest().authenticated();
     }
+      
 }

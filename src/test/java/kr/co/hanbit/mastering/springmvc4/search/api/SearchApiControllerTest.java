@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import kr.co.hanbit.mastering.springmvc4.MasteringSpringMvc4Application;
-import kr.co.hanbit.mastering.springmvc4.config.StubTwitterSearchConfig;
+import kr.co.hanbit.mastering.springmvc4.search.StubTwitterSearchConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = { MasteringSpringMvc4Application.class, StubTwitterSearchConfig.class })
