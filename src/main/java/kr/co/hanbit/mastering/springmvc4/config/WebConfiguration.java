@@ -22,8 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import kr.co.hanbit.mastering.springmvc4.date.KRLocalDateFormatter;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
@@ -73,8 +71,9 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         return objectMapper;
     }
 
-//    @Bean
-//    public Docket userApi() {
-//        return new Docket(DocumentationType.SWAGGER_2).select().paths(path -> path.startsWith("/api/")).build();
-//    }
+    // @Bean
+    // public Docket userApi() {
+    // return new Docket(DocumentationType.SWAGGER_2).select().paths(path ->
+    // path.startsWith("/api/")).build();
+    // }
 }

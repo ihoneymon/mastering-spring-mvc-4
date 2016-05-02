@@ -16,6 +16,21 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @Configuration
 @Profile("redis")
 @EnableRedisHttpSession
-public class RedisConfig {
+public class RedisConfiguration {
     
+    @Bean(name = "objectRedisTemplate")
+    public RedisTemplate objectRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<Object, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
+        return template;
+    }
+
+    @Primary
+    @Bean
+    public CacheManager cacheManager(@Qualifier("objectRedisTemplate") RedisTemplate template) {
+        RedisCacheManager cacheManager = new RedisCacheManager(template);
+        cacheManager.setCacheNames(Arrays.asList("searches"));
+        cacheManager.setDefaultExpiration(36_000);
+        return cacheManager;
+    }
 }
