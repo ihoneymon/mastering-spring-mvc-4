@@ -133,3 +133,4 @@ fabric.properties
 
 #ignore keystore
 *.keystore
+*.key
