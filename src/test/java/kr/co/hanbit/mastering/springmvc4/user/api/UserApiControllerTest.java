@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,6 +32,7 @@ import kr.co.hanbit.mastering.springmvc4.utils.JsonUtil;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = MasteringSpringMvc4Application.class)
 @WebAppConfiguration
+@ActiveProfiles("test")
 public class UserApiControllerTest {
     @Autowired
     private WebApplicationContext wac;
@@ -54,7 +56,8 @@ public class UserApiControllerTest {
     @Test
     public void test_should_create_new_user() throws Exception {
         User user = new User("john@spring.io");
-        this.mockMvc.perform(post("/api/users").contentType(MediaType.APPLICATION_JSON_UTF8).content(JsonUtil.toJson(user)))
+        this.mockMvc
+                .perform(post("/api/users").contentType(MediaType.APPLICATION_JSON_UTF8).content(JsonUtil.toJson(user)))
                 .andExpect(status().isCreated());
         assertThat(userRepository.findAll()).extracting(User::getEmail).containsOnly("bob@spring.io", "john@spring.io");
     }
@@ -76,9 +79,8 @@ public class UserApiControllerTest {
     public void test_put_should_update_existing_user() throws Exception {
         User user = new User("ignored@spring.io");
 
-        this.mockMvc.perform(
-                put("/api/user/bob@spring.io").contentType(MediaType.APPLICATION_JSON_UTF8).content(JsonUtil.toJson(user)))
-                .andExpect(status().isOk());
+        this.mockMvc.perform(put("/api/user/bob@spring.io").contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(JsonUtil.toJson(user))).andExpect(status().isOk());
 
         assertThat(userRepository.findAll()).extracting(User::getEmail).containsOnly("bob@spring.io");
     }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import kr.co.hanbit.mastering.springmvc4.search.cache.SearchCache;
 
 @Service
-@Profile("!async")
+@Profile({"!async", "!test"})
 public class SearchService implements TwitterSearch {
 
     private SearchCache searchCache;

@@ -4,7 +4,7 @@ import geb.pages.ProfilePage
 import geb.pages.SearchResultPage
 import geb.spock.GebSpec
 import kr.co.hanbit.mastering.springmvc4.MasteringSpringMvc4Application
-import kr.co.hanbit.mastering.springmvc4.search.StubTwitterSearchConfig;
+import kr.co.hanbit.mastering.springmvc4.config.StubTwitterSearchConfig;
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.SpringApplicationContextLoader

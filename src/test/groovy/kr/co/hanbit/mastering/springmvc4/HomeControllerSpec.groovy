@@ -1,17 +1,19 @@
 package kr.co.hanbit.mastering.springmvc4
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 
-import kr.co.hanbit.mastering.springmvc4.search.StubTwitterSearchConfig;
+import kr.co.hanbit.mastering.springmvc4.config.StubTwitterSearchConfig;
 import spock.lang.Specification
 
 @ContextConfiguration(loader = SpringApplicationContextLoader,
