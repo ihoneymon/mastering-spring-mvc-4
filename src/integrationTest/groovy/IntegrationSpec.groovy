@@ -9,10 +9,12 @@ import kr.co.hanbit.mastering.springmvc4.config.StubTwitterSearchConfig;
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration
 
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = [MasteringSpringMvc4Application, StubTwitterSearchConfig])
 @WebIntegrationTest(randomPort = true)
+@ActiveProfiles("test")
 class IntegrationSpec extends GebSpec {
 
     @Value('${local.server.port}')
