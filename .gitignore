@@ -134,3 +134,4 @@ fabric.properties
 #ignore keystore
 *.keystore
 *.key
+/.apt_generated/
